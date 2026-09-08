@@ -1,0 +1,23 @@
+capture:
+  interface: "eth0"
+  promiscuous: true
+  bpf_filter: ""
+  one_way_enforced: true  # Guarantees zero response transmissions
+
+flow:
+  inactivity_timeout_sec: 5.0
+  active_timeout_sec: 60.0
+  clean_interval_sec: 1.0
+
+features:
+  dns_ngram_n: 3
+  fanout_time_window_sec: 60.0
+
+handoff:
+  format: "json_lines"   # json_lines, stdout, json_array
+  output_file: "output_flows.jsonl"
+
+logging:
+  level: "INFO"
+  log_file: "pipeline.log"
+  log_malformed: true
