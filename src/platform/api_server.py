@@ -70,6 +70,18 @@ async def get_dashboard():
         return FileResponse(index_path)
     return JSONResponse({"status": "API Server Active", "dashboard": "static index.html missing"})
 
+@app.get("/styles.css")
+async def get_css_direct():
+    return FileResponse(os.path.join(static_dir, "styles.css"))
+
+@app.get("/app.js")
+async def get_js_direct():
+    return FileResponse(os.path.join(static_dir, "app.js"))
+
+@app.get("/favicon.ico")
+async def get_favicon():
+    return JSONResponse({"status": "ok"}, status_code=204)
+
 @app.get("/api/v1/health")
 async def get_health():
     return {

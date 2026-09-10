@@ -4,78 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIH26145 — SOC Security Analyst Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="logo">
-                <h2>🛡️ SIH26145 SOC</h2>
-                <span class="badge">1-Way Data Diode</span>
-            </div>
-            <nav>
-                <a href="#" class="active">📊 Live Overview</a>
-                <a href="#incidents">⚠️ Active Incidents</a>
-                <a href="#demo">🚀 Attack Injector</a>
-                <a href="#topology">🕸️ Topology Graph</a>
-            </nav>
-            <div class="status-box">
-                <span class="dot green"></span> Passive Sniffer Active
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-bar">
-                <h1>Network Traffic & Threat Intelligence Platform</h1>
-                <div class="quick-stats">
-                    <div class="stat-card">
-                        <span class="stat-title">Flows Processed</span>
-                        <span class="stat-value" id="stat-total-flows">0</span>
-                    </div>
-                    <div class="stat-card warning">
-                        <span class="stat-title">Active Incidents</span>
-                        <span class="stat-value" id="stat-active-incidents">0</span>
-                    </div>
-                    <div class="stat-card info">
-                        <span class="stat-title">Pipeline Latency</span>
-                        <span class="stat-value" id="stat-latency">0.42 ms</span>
-                    </div>
+    <div class="app-layout">
+        <!-- Top Navigation Header -->
+        <header class="navbar">
+            <div class="nav-brand">
+                <div class="shield-icon">🛡️</div>
+                <div class="brand-text">
+                    <span class="title">SIH26145 Threat Intelligence Console</span>
+                    <span class="subtitle">Passive Data Diode Pipeline & SHAP Threat Detection</span>
                 </div>
-            </header>
-
-            <!-- Attack Generator Trigger Panel -->
-            <section id="demo" class="card">
-                <h2>🚀 Live Demo Attack Trigger Panel (Person 1 -> Person 2 -> Person 3)</h2>
-                <p>Trigger synthetic attack traffic samples into the passive pipeline for real-time detection & dashboard visualization.</p>
-                <div class="button-group">
-                    <button class="btn btn-danger" onclick="triggerAttack('ddos')">⚡ DDoS Flood</button>
-                    <button class="btn btn-warning" onclick="triggerAttack('c2_beaconing')">📡 C2 Beaconing</button>
-                    <button class="btn btn-purple" onclick="triggerAttack('dga_dns_tunneling')">🌐 DGA / DNS Tunneling</button>
-                    <button class="btn btn-info" onclick="triggerAttack('malware_tls')">🔒 Malware TLS</button>
-                    <button class="btn btn-orange" onclick="triggerAttack('port_scan')">🔍 Port Scanning</button>
-                    <button class="btn btn-secondary" onclick="triggerAttack('data_exfiltration')">📤 Data Exfiltration</button>
+            </div>
+            <div class="nav-metrics">
+                <div class="metric-chip">
+                    <span class="chip-label">Pipeline Mode</span>
+                    <span class="chip-val green">● 1-Way Passive Listen</span>
                 </div>
+                <div class="metric-chip">
+                    <span class="chip-label">Mean Latency</span>
+                    <span class="chip-val cyan" id="val-latency">0.42 ms</span>
+                </div>
+                <div class="metric-chip">
+                    <span class="chip-label">Total Flows</span>
+                    <span class="chip-val blue" id="val-total-flows">0</span>
+                </div>
+                <div class="metric-chip">
+                    <span class="chip-label">Active Threats</span>
+                    <span class="chip-val red" id="val-active-incidents">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="workspace">
+            <!-- Attack Injector Control Bar -->
+            <section class="injector-panel">
+                <div class="panel-header">
+                    <h3>🚀 Live Demo Trigger Panel</h3>
+                    <span class="hint">Click to inject synthetic attack traffic into passive pipeline in real time:</span>
+                </div>
+                <div class="trigger-buttons">
+                    <button class="btn btn-ddos" onclick="injectAttack('ddos')">⚡ DDoS Flood</button>
+                    <button class="btn btn-c2" onclick="injectAttack('c2_beaconing')">📡 C2 Beaconing</button>
+                    <button class="btn btn-dga" onclick="injectAttack('dga_dns_tunneling')">🌐 DGA / DNS Tunneling</button>
+                    <button class="btn btn-tls" onclick="injectAttack('malware_tls')">🔒 Malware TLS</button>
+                    <button class="btn btn-scan" onclick="injectAttack('port_scan')">🔍 Port Scanning</button>
+                    <button class="btn btn-exfil" onclick="injectAttack('data_exfiltration')">📤 Data Exfiltration</button>
+                </div>
+                <div id="toast-msg" class="toast-hidden"></div>
             </section>
 
-            <!-- Chart & Live Stream Split -->
-            <div class="grid-2">
-                <div class="card">
-                    <h2>📈 Real-Time Flow Bandwidth Stream</h2>
-                    <canvas id="bandwidthChart"></canvas>
+            <!-- Dashboard Visual Grids -->
+            <div class="grid-layout">
+                <!-- Left Column: Throughput & Topology -->
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>📈 Real-Time Flow Throughput Stream</h3>
+                            <span class="subtext">Bytes / Sec</span>
+                        </div>
+                        <div class="canvas-container">
+                            <canvas id="bandwidthCanvas" width="600" height="220"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>🕸️ Network Topology & Attack Edges</h3>
+                            <span class="subtext">Live Host Connections</span>
+                        </div>
+                        <div class="canvas-container">
+                            <canvas id="topologyCanvas" width="600" height="200"></canvas>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="card" id="incidents">
-                    <h2>⚠️ Detected Incidents (SHAP Attributed)</h2>
-                    <div id="incidents-container" class="scrollable-list">
-                        <div class="empty-msg">Waiting for threat detection signals...</div>
+                <!-- Right Column: SHAP Threat Incidents -->
+                <div class="col">
+                    <div class="card height-fill">
+                        <div class="card-header">
+                            <h3>⚠️ Detected Threat Incidents</h3>
+                            <span class="subtext">SHAP Attributed & Scored</span>
+                        </div>
+                        <div id="incidents-feed" class="feed-container">
+                            <div class="empty-state">
+                                <div class="empty-icon">📡</div>
+                                <div>Listening for passive flow signals...</div>
+                                <div class="empty-sub">Trigger an attack above to view real-time detections & SHAP feature attributions.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
-    <script src="app.js"></script>
+    <script src="/static/app.js"></script>
 </body>
 </html>
