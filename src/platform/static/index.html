@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIH26145 — SOC Security Analyst Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>🛡️ SIH26145 SOC</h2>
+                <span class="badge">1-Way Data Diode</span>
+            </div>
+            <nav>
+                <a href="#" class="active">📊 Live Overview</a>
+                <a href="#incidents">⚠️ Active Incidents</a>
+                <a href="#demo">🚀 Attack Injector</a>
+                <a href="#topology">🕸️ Topology Graph</a>
+            </nav>
+            <div class="status-box">
+                <span class="dot green"></span> Passive Sniffer Active
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Network Traffic & Threat Intelligence Platform</h1>
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <span class="stat-title">Flows Processed</span>
+                        <span class="stat-value" id="stat-total-flows">0</span>
+                    </div>
+                    <div class="stat-card warning">
+                        <span class="stat-title">Active Incidents</span>
+                        <span class="stat-value" id="stat-active-incidents">0</span>
+                    </div>
+                    <div class="stat-card info">
+                        <span class="stat-title">Pipeline Latency</span>
+                        <span class="stat-value" id="stat-latency">0.42 ms</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Attack Generator Trigger Panel -->
+            <section id="demo" class="card">
+                <h2>🚀 Live Demo Attack Trigger Panel (Person 1 -> Person 2 -> Person 3)</h2>
+                <p>Trigger synthetic attack traffic samples into the passive pipeline for real-time detection & dashboard visualization.</p>
+                <div class="button-group">
+                    <button class="btn btn-danger" onclick="triggerAttack('ddos')">⚡ DDoS Flood</button>
+                    <button class="btn btn-warning" onclick="triggerAttack('c2_beaconing')">📡 C2 Beaconing</button>
+                    <button class="btn btn-purple" onclick="triggerAttack('dga_dns_tunneling')">🌐 DGA / DNS Tunneling</button>
+                    <button class="btn btn-info" onclick="triggerAttack('malware_tls')">🔒 Malware TLS</button>
+                    <button class="btn btn-orange" onclick="triggerAttack('port_scan')">🔍 Port Scanning</button>
+                    <button class="btn btn-secondary" onclick="triggerAttack('data_exfiltration')">📤 Data Exfiltration</button>
+                </div>
+            </section>
+
+            <!-- Chart & Live Stream Split -->
+            <div class="grid-2">
+                <div class="card">
+                    <h2>📈 Real-Time Flow Bandwidth Stream</h2>
+                    <canvas id="bandwidthChart"></canvas>
+                </div>
+
+                <div class="card" id="incidents">
+                    <h2>⚠️ Detected Incidents (SHAP Attributed)</h2>
+                    <div id="incidents-container" class="scrollable-list">
+                        <div class="empty-msg">Waiting for threat detection signals...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

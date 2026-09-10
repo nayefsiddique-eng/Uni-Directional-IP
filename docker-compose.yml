@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  traffic-pipeline:
+    build: .
+    container_name: sih26145_pipeline
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
+    command: python src/main.py --generate-attacks --output output_flows.jsonl
+
+  api-dashboard:
+    build: .
+    container_name: sih26145_dashboard
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python -m uvicorn src.platform.api_server:app --host 0.0.0.0 --port 8000
+
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: sih26145_postgres
+    environment:
+      POSTGRES_DB: sih26145_threats
+      POSTGRES_USER: soc_analyst
+      POSTGRES_PASSWORD: secure_password_123
+    ports:
+      - "5432:5432"
+
+  neo4j-graph:
+    image: neo4j:5-community
+    container_name: sih26145_neo4j
+    environment:
+      NEO4J_AUTH: neo4j/secure_password_123
+    ports:
+      - "7474:7474"
+      - "7687:7687"
