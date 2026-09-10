@@ -6,6 +6,8 @@ FR1 Compliant: Strictly passive downstream capture with 0 transmission back to s
 import logging
 import os
 from typing import Callable, Optional
+
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 from scapy.all import rdpcap, PcapReader, sniff, IP, IPv6, TCP, UDP, ICMP, Packet
 from .malformed_handler import MalformedHandler
 

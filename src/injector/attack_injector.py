@@ -14,6 +14,9 @@ import random
 import string
 import hashlib
 from typing import List, Tuple, Dict, Any, Optional
+import logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+
 from scapy.all import Ether, IP, TCP, UDP, ICMP, DNS, DNSQR, Raw, Packet, wrpcap
 
 class SyntheticAttackInjector:
