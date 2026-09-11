@@ -75,8 +75,12 @@ async def get_css_direct():
     return FileResponse(os.path.join(static_dir, "styles.css"))
 
 @app.get("/app.js")
+@app.get("/main.js")
 async def get_js_direct():
-    return FileResponse(os.path.join(static_dir, "app.js"))
+    main_js = os.path.join(static_dir, "main.js")
+    if os.path.exists(main_js):
+        return FileResponse(main_js, media_type="application/javascript")
+    return FileResponse(os.path.join(static_dir, "app.js"), media_type="application/javascript")
 
 @app.get("/favicon.ico")
 async def get_favicon():
