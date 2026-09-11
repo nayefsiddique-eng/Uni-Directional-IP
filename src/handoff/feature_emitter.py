@@ -1,6 +1,6 @@
 """
-Feature Emitter Handoff Interface (FR4).
-Streams JSON line records or writes batch files for downstream ML Module (Person 2) consumption.
+Feature Emitter Engine.
+Streams JSON line records or writes batch files for downstream ML Module consumption.
 """
 
 import json

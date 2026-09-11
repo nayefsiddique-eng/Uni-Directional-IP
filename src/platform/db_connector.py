@@ -1,6 +1,6 @@
 """
-Database & Graph Storage Manager (Person 3).
-Supports SQLite (persistent default: sih26145_platform.db) with optional PostgreSQL / Neo4j integration.
+Database & Graph Storage Manager.
+Supports SQLite (persistent default: aegis_platform.db) with optional PostgreSQL / Neo4j integration.
 """
 
 import sqlite3
@@ -13,7 +13,7 @@ from ..ml.fusion_engine import Incident
 logger = logging.getLogger("TrafficPipeline.DBConnector")
 
 class DatabaseConnector:
-    def __init__(self, db_path: str = "sih26145_platform.db"):
+    def __init__(self, db_path: str = "aegis_platform.db"):
         self.db_path = db_path
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self._init_db()

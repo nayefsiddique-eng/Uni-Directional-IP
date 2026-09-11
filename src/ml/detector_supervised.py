@@ -1,5 +1,5 @@
 """
-Supervised Threat Classifier (FR3: Person 2).
+Supervised Threat Classifier (FR3).
 Provides rule-based feature heuristic classification for DDoS, Port Scanning, and Data Exfiltration.
 Detections are computed strictly from extracted flow features — zero label lookup.
 """

@@ -28,7 +28,7 @@ def setup_logging(log_file: str = "pipeline.log", level: str = "INFO"):
     )
 
 def main():
-    parser = argparse.ArgumentParser(description="Passive Traffic & Data Engineering Module (SIH26145 - Person 1)")
+    parser = argparse.ArgumentParser(description="Passive Traffic & Data Engineering Module — Aegis Platform")
     parser.add_argument("--config", default="config/pipeline_config.yaml", help="Path to config YAML")
     parser.add_argument("--pcap", default=None, help="Process offline PCAP file instead of live capture")
     parser.add_argument("--generate-attacks", action="store_true", help="Generate synthetic attack PCAP first")

@@ -1,5 +1,5 @@
 """
-Evidence Fusion & Incident Correlation Engine (FR4: Person 2).
+Evidence Fusion & Incident Correlation Engine (FR4).
 Fuses multi-signal detection probabilities into unified, scored, and explainable Incidents.
 """
 

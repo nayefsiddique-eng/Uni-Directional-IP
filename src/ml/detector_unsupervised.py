@@ -1,5 +1,5 @@
 """
-Unsupervised Anomaly Detector (FR3: Person 2).
+Unsupervised Anomaly Detector (FR3).
 Uses Isolation Forest anomaly scoring for zero-day & unknown traffic pattern detection.
 """
 

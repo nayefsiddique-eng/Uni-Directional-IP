@@ -1,5 +1,4 @@
-# Full Network Threat Intelligence & Security Platform
-## SIH26145 — Complete Integrated Architecture
+# Aegis Traffic Intelligence Platform — Architecture & Technical Manual
 
 [![Python Version](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg)](https://fastapi.tiangolo.com/)
@@ -11,13 +10,13 @@
 
 ## 1. Overview
 
-This repository contains the complete, production-grade implementation of the **SIH26145 Passive Network Security Platform**. Designed to operate downstream of a **1-way Data Diode**, the system ingests raw network frames, extracts high-dimensional behavioral features, evaluates threats using multi-signal detection engines, computes rule-based feature attributions, and streams real-time threat intelligence to an interactive SOC Analyst Web Dashboard.
+This repository contains the complete, production-grade implementation of the **Aegis Passive Network Security & Threat Intelligence Platform**. Designed to operate downstream of a **1-way Data Diode**, the system ingests raw network frames, extracts high-dimensional behavioral features, evaluates threats using multi-signal detection engines, computes rule-based feature attributions, and streams real-time threat intelligence to an interactive SOC Analyst Web Dashboard.
 
 ---
 
 ## 2. Full System Architecture
 
-### High-Level 3-Person Integrated Architecture
+### Modular Integrated Architecture
 ```mermaid
 flowchart TD
     subgraph ProtectedNetwork["Protected Network Zone"]
@@ -28,7 +27,7 @@ flowchart TD
         DD["Data Diode (1-Way Hardware Transmitter)"]
     end
 
-    subgraph Person1["Person 1: Traffic & Data Engineering"]
+    subgraph IngestionSubsystem["Traffic & Data Engineering Subsystem"]
         direction TB
         PS["Passive Packet Sniffer (Live / PCAP)"]
         MH["Malformed Packet Handler & Anomaly Logger"]
@@ -37,7 +36,7 @@ flowchart TD
         SAI["Synthetic Attack Injector (6 Attack Categories)"]
     end
 
-    subgraph Person2["Person 2: AI/ML & Detection Intelligence"]
+    subgraph IntelligenceSubsystem["AI/ML & Threat Detection Intelligence"]
         direction TB
         SD["Supervised Heuristic Classifiers (DDoS, Scanning, Exfiltration)"]
         UD["Unsupervised Isolation Forest (Zero-Day Anomalies)"]
@@ -47,7 +46,7 @@ flowchart TD
         FPS["False-Positive Suppression Tracker"]
     end
 
-    subgraph Person3["Person 3: Platform, Dashboard & Delivery"]
+    subgraph PlatformSubsystem["Platform Delivery & SOC Dashboard"]
         direction TB
         API["FastAPI REST & WebSocket Streaming Server"]
         DB[("SQLite Persistent Storage / Optional PostgreSQL")]
@@ -85,15 +84,15 @@ flowchart TD
 
 ---
 
-## 3. PRD Work Split & Role Ownership
+## 3. Subsystem Architecture & Ownership
 
-### 👤 Person 1 — Traffic & Data Engineering
+### 🛡️ Traffic & Data Engineering Subsystem
 > **Scope:** *Passive ingestion, 5-tuple flow reconstruction, feature extraction engine, synthetic attack injector, public dataset normalizer.*
 
-### 👤 Person 2 — AI/ML & Detection Intelligence
+### 🧠 AI/ML & Detection Intelligence Subsystem
 > **Scope:** *Supervised threat classification, Isolation Forest zero-day anomaly detection, C2 periodicity analysis, Evidence Fusion Engine, feature attribution explainer, false-positive suppression.*
 
-### 👤 Person 3 — Platform, Dashboard & Delivery
+### 💻 Platform Delivery & SOC Dashboard Subsystem
 > **Scope:** *FastAPI REST API, WebSocket event broadcaster, persistent SQLite database default (with optional PostgreSQL & Neo4j graph connectors), interactive SOC Analyst Web Dashboard, Docker Compose orchestration.*
 
 ---

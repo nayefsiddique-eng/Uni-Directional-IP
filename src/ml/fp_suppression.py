@@ -1,5 +1,5 @@
 """
-False-Positive Suppression Engine (FR6: Person 2).
+False-Positive Suppression Engine (FR6).
 Tracks low-confidence signals, white-listed baselines, and recurring benign activity to prevent SOC analyst alert fatigue.
 """
 

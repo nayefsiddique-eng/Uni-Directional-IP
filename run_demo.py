@@ -1,5 +1,5 @@
 """
-One-Click Interactive Demo Launcher for SIH26145 Platform.
+One-Click Interactive Demo Launcher for Aegis Traffic Intelligence Platform.
 Starts the FastAPI Backend, launches the SOC Web Dashboard in your browser,
 and streams live traffic & synthetic attack threats in real time.
 """
@@ -26,7 +26,7 @@ def run_server():
 
 def main():
     print("=========================================================================")
-    print(" 🛡️  SIH26145 NETWORK SECURITY & THREAT INTELLIGENCE DEMO LAUNCHER     ")
+    print(" 🛡️  AEGIS NETWORK SECURITY & THREAT INTELLIGENCE DEMO LAUNCHER     ")
     print("=========================================================================")
     print(" [1] Starting FastAPI Server & WebSocket Broadcaster at http://127.0.0.1:8000...")
     
@@ -41,7 +41,7 @@ def main():
     print("\n=========================================================================")
     print("                      LIVE DEMO CONTROL MENU                             ")
     print("=========================================================================")
-    print(" Choose an action to demonstrate real-time attack detection & SHAP alerts:")
+    print(" Choose an action to demonstrate real-time attack detection & attributions:")
     print("   1. ⚡ Inject DDoS Flood Attack")
     print("   2. 📡 Inject C2 Beaconing Attack")
     print("   3. 🌐 Inject DGA / DNS Tunneling Attack")

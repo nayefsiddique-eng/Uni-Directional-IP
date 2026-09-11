@@ -1,5 +1,5 @@
 """
-Rule-Based Feature Attribution Explainer (FR5: Person 2).
+Rule-Based Feature Attribution Explainer (FR5).
 Computes feature attribution weights and natural-language evidence summaries per incident.
 """
 

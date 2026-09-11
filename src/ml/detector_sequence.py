@@ -1,5 +1,5 @@
 """
-Sequence & Signal Detector (FR3: Person 2).
+Sequence & Signal Detector (FR3).
 Analyzes C2 Beaconing periodicity, DNS Tunneling/DGA entropy, and TLS Handshake fingerprints.
 Detections are computed strictly from extracted flow features — zero label lookup.
 """

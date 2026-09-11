@@ -3,7 +3,7 @@ version: '3.8'
 services:
   traffic-pipeline:
     build: .
-    container_name: sih26145_pipeline
+    container_name: aegis_pipeline
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
@@ -12,7 +12,7 @@ services:
 
   api-dashboard:
     build: .
-    container_name: sih26145_dashboard
+    container_name: aegis_dashboard
     ports:
       - "8000:8000"
     environment:
@@ -21,9 +21,9 @@ services:
 
   postgres-db:
     image: postgres:15-alpine
-    container_name: sih26145_postgres
+    container_name: aegis_postgres
     environment:
-      POSTGRES_DB: sih26145_threats
+      POSTGRES_DB: aegis_threats
       POSTGRES_USER: soc_analyst
       POSTGRES_PASSWORD: secure_password_123
     ports:
@@ -31,7 +31,7 @@ services:
 
   neo4j-graph:
     image: neo4j:5-community
-    container_name: sih26145_neo4j
+    container_name: aegis_neo4j
     environment:
       NEO4J_AUTH: neo4j/secure_password_123
     ports:

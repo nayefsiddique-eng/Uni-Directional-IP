@@ -1,5 +1,6 @@
 """
-Flow Record Schema Definition for Handoff to AI/ML Module (Person 2).
+Flow Record Schema Definition for Handoff to AI/ML Module.
+Contains dataclass definition, serialization methods, and schema field metadata.
 """
 
 from dataclasses import dataclass, asdict, field
@@ -78,7 +79,7 @@ class FlowRecord:
 
 
 def get_schema_metadata() -> Dict[str, Any]:
-    """Returns field name, type, and unit description for documentation / Person 2 agreement."""
+    """Returns field name, type, and unit description for documentation agreement."""
     return {
         "flow_id": {"type": "str", "description": "Bi-directional 5-tuple hash identifier"},
         "src_ip": {"type": "str", "description": "Source IP address"},

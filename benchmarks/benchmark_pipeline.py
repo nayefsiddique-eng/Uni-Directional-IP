@@ -17,9 +17,9 @@ from src.capture.packet_sniffer import PassivePacketSniffer
 from src.handoff.feature_emitter import FeatureEmitter
 
 def run_benchmark():
-    print("==========================================================")
-    print("   TRAFFIC PIPELINE BENCHMARK (SIH26145 - PERSON 1)       ")
-    print("==========================================================")
+    print("=========================================================================")
+    print("   TRAFFIC PIPELINE PERFORMANCE BENCHMARK                              ")
+    print("=========================================================================")
 
     injector = SyntheticAttackInjector()
     print("[1/3] Synthesizing benchmark packet stream (all 6 attack categories)...")

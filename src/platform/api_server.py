@@ -1,5 +1,5 @@
 """
-FastAPI REST & WebSocket Server (Person 3).
+FastAPI REST & WebSocket Server.
 Connects Passive Capture, Evidence Fusion, DB Storage, and Web SOC Analyst Dashboard.
 """
 
@@ -25,9 +25,9 @@ from src.platform.db_connector import DatabaseConnector, Neo4jConnector
 logger = logging.getLogger("TrafficPipeline.APIServer")
 
 app = FastAPI(
-    title="SIH26145 - Traffic & Threat Intelligence Platform",
+    title="Aegis Traffic Intelligence Platform",
     version="1.0.0",
-    description="Backend API & WebSocket server for Network SOC Dashboard"
+    description="Backend API & WebSocket server for Aegis SOC Threat Intelligence Console"
 )
 
 db = DatabaseConnector()
