@@ -11,7 +11,7 @@ from ..schema.flow_schema import FlowRecord
 from .detector_supervised import SupervisedDetector
 from .detector_unsupervised import UnsupervisedDetector
 from .detector_sequence import SequenceDetector
-from .explainability import SHAPExplainer
+from .explainability import FeatureAttributionExplainer
 from .fp_suppression import FPSuppressionTracker
 
 @dataclass
@@ -30,7 +30,7 @@ class Incident:
     mitre_attack_id: str
     evidence_summary: str
     evidence_points: List[str]
-    shap_attributions: Dict[str, float]
+    feature_attributions: Dict[str, float]
     suppressed: bool
     suppression_reason: str
     model_version: str
@@ -53,7 +53,7 @@ class EvidenceFusionEngine:
         self.supervised = SupervisedDetector()
         self.unsupervised = UnsupervisedDetector()
         self.sequence = SequenceDetector()
-        self.explainer = SHAPExplainer()
+        self.explainer = FeatureAttributionExplainer()
         self.suppressor = FPSuppressionTracker()
         self.incidents_generated = 0
 
@@ -69,7 +69,6 @@ class EvidenceFusionEngine:
         for cat in all_categories:
             score1 = sup_scores.get(cat, 0.0)
             score2 = seq_scores.get(cat, 0.0)
-            # Soft-max / max fusion rule
             merged_scores[cat] = round(max(score1, score2), 4)
 
         top_category, top_confidence = max(merged_scores.items(), key=lambda x: x[1])
@@ -80,7 +79,7 @@ class EvidenceFusionEngine:
             top_confidence = unsup_res["unsupervised_anomaly_score"]
 
         # If benign / low score
-        if top_confidence < 0.30 and flow.label == "benign":
+        if top_confidence < 0.30:
             return None
 
         # Check suppression
@@ -96,7 +95,7 @@ class EvidenceFusionEngine:
         else:
             severity = "LOW"
 
-        # Generate SHAP explanation
+        # Generate feature attribution explanation
         explanation = self.explainer.explain_flow(flow, top_category, top_confidence)
         mitre_id = self.MITRE_MAPPING.get(top_category, "T1036 - Unknown Anomaly")
 
@@ -118,7 +117,7 @@ class EvidenceFusionEngine:
             mitre_attack_id=mitre_id,
             evidence_summary=explanation["evidence_summary"],
             evidence_points=explanation["evidence_points"],
-            shap_attributions=explanation["shap_attributions"],
+            feature_attributions=explanation["feature_attributions"],
             suppressed=suppressed,
             suppression_reason=reason,
             model_version=f"{self.supervised.model_version}+{self.sequence.model_version}"

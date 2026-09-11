@@ -1,7 +1,6 @@
 """
 Database & Graph Storage Manager (Person 3).
-Supports PostgreSQL for incidents & flows and Neo4j for network topology graph relationships.
-Includes lightweight SQLite/In-Memory fallback for standalone deployment.
+Supports SQLite (persistent default: sih26145_platform.db) with optional PostgreSQL / Neo4j integration.
 """
 
 import sqlite3
@@ -14,7 +13,7 @@ from ..ml.fusion_engine import Incident
 logger = logging.getLogger("TrafficPipeline.DBConnector")
 
 class DatabaseConnector:
-    def __init__(self, db_path: str = ":memory:"):
+    def __init__(self, db_path: str = "sih26145_platform.db"):
         self.db_path = db_path
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self._init_db()
@@ -97,7 +96,7 @@ class DatabaseConnector:
         }
 
 class Neo4jConnector:
-    """Mock/Stub Neo4j graph storage manager for topology visualization."""
+    """In-memory topology graph manager with Neo4j-compatible driver interface."""
     def __init__(self, uri: str = "bolt://localhost:7687"):
         self.uri = uri
         self.nodes = set()

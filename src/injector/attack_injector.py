@@ -36,14 +36,19 @@ class SyntheticAttackInjector:
             return f"{random.choice(words)}.legit-domain.com"
 
     def generate_ddos_flood(self, count: int = 200, target_ip: str = "10.0.0.50") -> List[Packet]:
-        """Generates high-volume TCP SYN flood targeting single IP (FR5: DDoS)."""
+        """Generates high-volume TCP SYN flood targeting single IP (FR5: DDoS).
+        Uses a small pool of attacker IPs so packets aggregate into multi-packet
+        flows with high packets_per_sec, triggering the volumetric detector."""
         packets = []
         base_time = time.time()
+        # 5 attacker IPs — each produces count/5 packets in the same flow
+        attacker_ips = [f"{self.src_subnet}.{i}" for i in range(201, 206)]
         for i in range(count):
-            src_ip = f"{self.src_subnet}.{random.randint(2, 250)}"
-            sport = random.randint(1024, 65535)
+            src_ip = attacker_ips[i % len(attacker_ips)]
+            sport = 44444  # Fixed sport so all packets from same src hit same 5-tuple
             pkt = Ether()/IP(src=src_ip, dst=target_ip)/TCP(sport=sport, dport=80, flags="S")/Raw(b"X" * random.randint(10, 60))
-            pkt.time = base_time + (i * 0.001)  # Extremely high rate
+            # Randomized inter-packet delay: real DDoS floods have irregular timing
+            pkt.time = base_time + (i * random.uniform(0.0001, 0.01))
             packets.append(pkt)
         return packets
 
@@ -106,7 +111,8 @@ class SyntheticAttackInjector:
         )
         
         for i in range(count):
-            t_curr = base_time + (i * 0.1)
+            # Randomized timing: malware TLS isn't periodic like C2 beacons
+            t_curr = base_time + (i * random.uniform(0.02, 0.3))
             pkt = Ether()/IP(src=src_ip, dst=target_ip)/TCP(sport=sport, dport=8443, flags="PA")/Raw(tls_client_hello_raw)
             pkt.time = t_curr
             packets.append(pkt)

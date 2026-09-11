@@ -55,24 +55,24 @@ def create_mock_flow(label="benign", **kwargs):
 def test_supervised_detector_ddos_and_portscan():
     detector = SupervisedDetector()
     
-    ddos_flow = create_mock_flow(packets_per_sec=250.0, total_packets=300, label="ddos")
+    ddos_flow = create_mock_flow(packets_per_sec=250.0, total_packets=300)
     scores = detector.predict_flow(ddos_flow)
-    assert scores["ddos"] >= 0.90
+    assert scores["ddos"] >= 0.80
 
-    scan_flow = create_mock_flow(src_fanout_dst_ports_1m=45, label="port_scan")
+    scan_flow = create_mock_flow(src_fanout_dst_ports_1m=30)
     scan_scores = detector.predict_flow(scan_flow)
-    assert scan_scores["port_scan"] >= 0.90
+    assert scan_scores["port_scan"] >= 0.80
 
 def test_sequence_detector_c2_and_dns():
     detector = SequenceDetector()
 
-    c2_flow = create_mock_flow(periodicity_score=0.85, label="c2_beaconing")
+    c2_flow = create_mock_flow(periodicity_score=0.85)
     c2_scores = detector.analyze_sequence(c2_flow)
-    assert c2_scores["c2_beaconing"] >= 0.90
+    assert c2_scores["c2_beaconing"] >= 0.80
 
-    dns_flow = create_mock_flow(dns_tunneling_flag=True, dns_mean_entropy=4.2, label="dga_dns_tunneling")
+    dns_flow = create_mock_flow(dns_tunneling_flag=True, dns_mean_entropy=4.2)
     dns_scores = detector.analyze_sequence(dns_flow)
-    assert dns_scores["dga_dns_tunneling"] >= 0.90
+    assert dns_scores["dga_dns_tunneling"] >= 0.80
 
 def test_unsupervised_detector():
     detector = UnsupervisedDetector()

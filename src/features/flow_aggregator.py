@@ -135,9 +135,15 @@ class FlowAggregator:
         state = self.active_flows.pop(flow_key)
         five_tuple = state['five_tuple']
         flow_id = self.get_flow_hash(five_tuple)
-        src_ip = five_tuple[0]
 
-        fanout_ips, fanout_ports = self._calculate_fanout(src_ip, current_time)
+        # Calculate fan-out for BOTH IPs in the 5-tuple and take the max.
+        # Canonical normalization may have swapped src/dst, but the fanout
+        # tracker stores entries under the actual packet source IP.
+        ip_a, ip_b = five_tuple[0], five_tuple[1]
+        fanout_ips_a, fanout_ports_a = self._calculate_fanout(ip_a, current_time)
+        fanout_ips_b, fanout_ports_b = self._calculate_fanout(ip_b, current_time)
+        fanout_ips = max(fanout_ips_a, fanout_ips_b)
+        fanout_ports = max(fanout_ports_a, fanout_ports_b)
 
         return self.feature_extractor.extract_features(
             flow_id=flow_id,

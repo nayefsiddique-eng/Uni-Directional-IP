@@ -1,14 +1,14 @@
 """
-SHAP Explainability & Attribution Engine (FR5: Person 2).
-Computes feature importances and natural-language evidence summaries per incident.
+Rule-Based Feature Attribution Explainer (FR5: Person 2).
+Computes feature attribution weights and natural-language evidence summaries per incident.
 """
 
 from typing import Dict, Any, List
 from ..schema.flow_schema import FlowRecord
 
-class SHAPExplainer:
+class FeatureAttributionExplainer:
     def explain_flow(self, flow: FlowRecord, attack_type: str, confidence: float) -> Dict[str, Any]:
-        """Calculates feature attributions (SHAP proxy) and natural language evidence summary."""
+        """Calculates rule-based feature attributions and natural language evidence summary."""
         attributions = {}
         evidence_lines = []
 
@@ -67,7 +67,7 @@ class SHAPExplainer:
             evidence_lines.append("Anomalous baseline metric distribution detected by Isolation Forest.")
 
         return {
-            "shap_attributions": attributions,
+            "feature_attributions": attributions,
             "evidence_summary": " ".join(evidence_lines),
             "evidence_points": evidence_lines
         }

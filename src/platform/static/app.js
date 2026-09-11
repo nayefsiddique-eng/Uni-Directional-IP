@@ -151,9 +151,10 @@ function renderIncidentCard(inc) {
     card.className = `incident-card ${inc.severity}`;
 
     let shapHtml = '';
-    if (inc.shap_attributions) {
+    const attributions = inc.feature_attributions || inc.shap_attributions;
+    if (attributions) {
         shapHtml = '<div class="shap-bars">';
-        for (const [feat, score] of Object.entries(inc.shap_attributions)) {
+        for (const [feat, score] of Object.entries(attributions)) {
             const pct = Math.min(100, Math.round(score * 100));
             shapHtml += `
                 <div class="shap-row">
